@@ -14,6 +14,7 @@ float Estagiario::calcularSalarioFinal(){
     float salario_final = salario_base + (horasTrabalhadas/160.0);
     return salario_final;
 }
+
 void Estagiario::exibirInformacoes(){
     cout << "ID: " << this->getId() << endl;
     cout << "Nome: " << this->nome << endl;

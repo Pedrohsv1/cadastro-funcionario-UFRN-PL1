@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
-#include <cstdio>
+#include <limits>
 
 #include "funcionario.h"
 #include "desenvolvedor.h"
 #include "gerente.h"
 #include "estagiario.h"
+#include "gettype.h"
+
 
 
 int main() {
@@ -13,9 +15,9 @@ int main() {
     Funcionario ** lista = (Funcionario**)malloc(10*sizeof(Funcionario*));
 
     //solicitação de 6 funcionários no mínimo
-    int cont=0;
-    //sem entrada e cont = 7 -> F F -> sai do while
-    while(cont < 2){
+    int contador = 0;
+    //sem entrada e contador = 7 -> F F -> sai do while
+    while(contador < 10){
         int tipo;
 
         string nome;
@@ -30,9 +32,11 @@ int main() {
 
         cout<< "Digite o salário base do seu funcionário: ";
         cin>> salarioBase;
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
             
-        cout<< "Digite o tipo do seu funcinário (1-Desenvolvedor, 2-Gerente, 3-Estagiario): ";
-        cin>> tipo;
+        tipo = getType() + 1;
+        // Verifica se o tipo é válido
             
 
         if(tipo == 1){
@@ -46,9 +50,7 @@ int main() {
             dev->setSalarioBase(salarioBase);
             dev->setQuantidadeDeProjetos(qtdDeProjetos);
 
-            lista[cont] = dev;
-            cont++;
-
+            lista[contador] = dev;
         }
         if(tipo == 2){
             float bonusMensal;
@@ -61,8 +63,7 @@ int main() {
             gerente->setSalarioBase(salarioBase);
             gerente->setBonusMensal(bonusMensal);
 
-            lista[cont] = gerente;
-            cont++;
+            lista[contador] = gerente;
         }
         if(tipo == 3){
             int horasTrabalhadas;
@@ -74,11 +75,46 @@ int main() {
             estagiario->setSalarioBase(salarioBase);
             estagiario->setHorasTrabalhadas(horasTrabalhadas);
 
-            lista[cont] = estagiario;
-            cont++;
-
+            lista[contador] = estagiario;
         }
+
+        contador++;
+
+        if(contador >= 10){
+            cout << "Limite de funcionários atingido." << endl;
+            break;
+        }
+        cout << "Funcionário adicionado com sucesso!" << endl;
+        if (contador < 6) {
+            cout << "Você pode adicionar mais " << (10 - contador) << " funcionários." << endl;
+        } else {
+            int resposta;
+
+            while (true) {
+                cout << "Você atingiu o mínimo de 6 funcionários. Deseja adicionar mais? (1 - Sim/0 - Não): ";
+                cin >> resposta;
+                if (resposta == 0 || resposta == 1) {
+                    break;
+                } else {
+                    cout << "Opção inválida. Por favor, digite 1 para sim ou 0 para não." << endl;
+                }
+            }
+
+            if (resposta == 0) {
+                cout << "Você escolheu não adicionar mais funcionários." << endl;
+                break; // Sai do loop se o usuário não quiser adicionar mais funcionários
+            }
+        }
+
+        contador++; // Incrementa o contadorador de funcionários
     }
 
     lista[0]->exibirInformacoes();
+
+    for (int i = 0; i < contador; i++) {
+        if (lista[i] != nullptr) {
+            lista[i]->exibirInformacoes();
+        }
+    }
+    // Libera a memória alocada
 }
