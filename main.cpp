@@ -27,8 +27,7 @@ int main() {
         cout<< "Digite o nome do seu funcionário: ";
         cin>> nome;
 
-        cout<< "Digite o id do seu funcionário: ";
-        cin>> id;
+        id = contador + 101;
 
         cout<< "Digite o salário base do seu funcionário: ";
         cin>> salarioBase;
@@ -84,10 +83,10 @@ int main() {
             cout << "Limite de funcionários atingido." << endl;
             break;
         }
+
         cout << "Funcionário adicionado com sucesso!" << endl;
-        if (contador < 6) {
-            cout << "Você pode adicionar mais " << (10 - contador) << " funcionários." << endl;
-        } else {
+        cout << "Você pode adicionar mais " << (10 - contador) << " funcionários." << endl;
+        if (contador >= 6) {
             int resposta;
 
             while (true) {
@@ -105,11 +104,8 @@ int main() {
                 break; // Sai do loop se o usuário não quiser adicionar mais funcionários
             }
         }
-
-        contador++; // Incrementa o contadorador de funcionários
     }
 
-    lista[0]->exibirInformacoes();
 
     for (int i = 0; i < contador; i++) {
         if (lista[i] != nullptr) {
